@@ -1,4 +1,4 @@
-module envUtil
+module github.com/natekinne97/envUtil
 
 go 1.18
 
