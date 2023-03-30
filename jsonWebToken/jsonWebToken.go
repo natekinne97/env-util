@@ -15,6 +15,12 @@ import (
 
 var loader = types.EnvUtilHelper{}
 
+type MongoClient interface{
+	InsertToken(email string)error
+	GetTokenByEmail(email string)(types.User, error)
+}
+
+
 func GenerateJwt(email string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
@@ -30,7 +36,7 @@ func GenerateJwt(email string) (string, error) {
 	return tokenString, nil
 }
 
-func ValidateJwt(w http.ResponseWriter, r *http.Request, mongo types.MongoClient) (string, error) {
+func ValidateJwt(w http.ResponseWriter, r *http.Request, mongo MongoClient) (string, error) {
 	fmt.Println("Validating token...", r.Header["Token"][0])
 
 	if r.Header["Token"] == nil {
@@ -78,7 +84,7 @@ func ValidateJwt(w http.ResponseWriter, r *http.Request, mongo types.MongoClient
 	return email, nil
 }
 
-func CreateJwt(email string, mongo types.MongoClient) (string, error) {
+func CreateJwt(email string, mongo MongoClient) (string, error) {
 	token, err := GenerateJwt(email)
 	if err != nil {
 		return "", err
