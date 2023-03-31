@@ -17,7 +17,7 @@ var loader = types.EnvUtilHelper{}
 
 type MongoClient interface{
 	InsertToken(email string)error
-	GetTokenByEmail(email string)(types.User, error)
+	GetTokenByEmail(email string)(*types.Token, error)
 }
 
 
