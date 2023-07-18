@@ -13,7 +13,7 @@ type EnvLoader interface{
 func GetEnv(env string, envLoader EnvLoader ) string {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error Loading ENV")
+		log.Fatal("Error Loading ENV", env)
 	}
 	variable := envLoader.Getenv(env)
 
